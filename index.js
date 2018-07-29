@@ -1,10 +1,24 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 const bodyParser = require('body-parser')
-app.use(bodyParser.json())
-
 const personsRouter = require('./controllers/persons')
 const persons = require('./db.json');
+
+app.use(bodyParser.json())
+//app.use(morgan('tiny'))
+app.use(getContent)
+app.use(morgan(':id :method :url :response-time'))
+
+morgan.token('id', function getId (req) {
+  return JSON.stringify(req.extra)
+})
+
+function getContent (req, res, next) {
+  req.extra = req.body
+  next()
+}
+
 app.use('/api/persons', personsRouter)
 
 app.get('/info', (req, res) => {

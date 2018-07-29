@@ -19,7 +19,6 @@ personsRouter.get('/', async (request, response) => {
 
 personsRouter.post('/', async (request, response) => {
   console.log("@POST")
-  console.log(request.body)
   const name = request.body.name;
   const number = request.body.number
   newPerson = {

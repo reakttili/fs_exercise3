@@ -8,9 +8,9 @@ const persons = require('./db.json');
 app.use(bodyParser.json())
 //app.use(morgan('tiny'))
 app.use(getContent)
-app.use(morgan(':id :method :url :response-time'))
+app.use(morgan(':data :method :url :response-time'))
 
-morgan.token('id', function getId (req) {
+morgan.token('data', function getId (req) {
   return JSON.stringify(req.extra)
 })
 

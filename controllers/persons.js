@@ -20,12 +20,24 @@ personsRouter.get('/', async (request, response) => {
 personsRouter.post('/', async (request, response) => {
   console.log("@POST")
   console.log(request.body)
+  const name = request.body.name;
+  const number = request.body.number
   newPerson = {
-    "name": request.body.name,
-    "number": request.body.number,
+    "name": name,
+    "number": number,
     "id": Math.random()*55555555
   }
 
+  if (personsdict.persons.find(p => p.name === name)) {
+   return response.status(400).json({ error: 'name already added' })
+  }
+   
+  if (!name) {
+    return response.status(400).json({ error: 'name missing' })
+  }
+  if (!number) {
+    return response.status(400).json({ error: 'number missing' })
+  }
   personsdict.persons = personsdict.persons.concat(newPerson)
   console.log(personsdict.persons)
   response.json(newPerson)

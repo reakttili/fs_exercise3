@@ -1,3 +1,4 @@
+const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
@@ -6,7 +7,7 @@ const personsRouter = require('./controllers/persons')
 const persons = require('./db.json');
 
 app.use(bodyParser.json())
-//app.use(morgan('tiny'))
+app.use(cors())
 app.use(getContent)
 app.use(morgan(':data :method :url :response-time'))
 

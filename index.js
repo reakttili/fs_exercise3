@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const personsRouter = require('./controllers/persons')
 const persons = require('./db.json');
 
+app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(cors())
 app.use(getContent)

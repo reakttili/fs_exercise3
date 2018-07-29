@@ -1,12 +1,11 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+
 const personsRouter = require('./controllers/persons')
 const persons = require('./db.json');
 app.use('/api/persons', personsRouter)
-
-//http://localhost:3001/info
-
-
 
 app.get('/info', (req, res) => {
   const date = new Date();

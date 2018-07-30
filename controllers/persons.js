@@ -1,5 +1,6 @@
 const personsRouter = require('express').Router()
 const personsdict = require('./db.json');
+const Person = require('./../models/person')
 
 module.exports = personsRouter
 
@@ -13,7 +14,14 @@ personsRouter.delete('/:id', (request, response) => {
 // async not yet needed!
 personsRouter.get('/', async (request, response) => {
   console.log("@GET")
-  response.json(personsdict.persons)
+  Person
+    .find({})
+    .then(persons => {
+      let p = persons.map(p=> p.formatPerson())
+      console.log(p)
+      response.json(p)
+      })
+    .catch(error => console.log(error))
 })
 
 

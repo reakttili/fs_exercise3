@@ -30,6 +30,10 @@ const Person = mongoose.model('Person', {
   name: String,
   number: String,
 })
+
+mySchema.methods.changedName = function() {
+  return this.name + 'TROLOLO';
+}
 // console.log("Find persons!")
 // Person
 //   .find({})

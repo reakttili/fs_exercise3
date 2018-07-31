@@ -29,25 +29,40 @@ personsRouter.post('/', async (request, response) => {
   console.log("@POST")
   const name = request.body.name;
   const number = request.body.number
-  newPerson = {
-    "name": name,
-    "number": number,
-    "id": Math.random()*55555555
-  }
-
-  if (personsdict.persons.find(p => p.name === name)) {
-   return response.status(400).json({ error: 'name already added' })
-  }
+  // newPerson = {
+  //   "name": name,
+  //   "number": number,
+  //   "id": Math.random()*55555555
+  // }
+  // WITHOUT DB
+  // if (personsdict.persons.find(p => p.name === name)) {
+  //  return response.status(400).json({ error: 'name already added' })
+  // }
    
-  if (!name) {
-    return response.status(400).json({ error: 'name missing' })
-  }
-  if (!number) {
-    return response.status(400).json({ error: 'number missing' })
-  }
-  personsdict.persons = personsdict.persons.concat(newPerson)
-  console.log(personsdict.persons)
-  response.json(newPerson)
+  // if (!name) {
+  //   return response.status(400).json({ error: 'name missing' })
+  // }
+  // if (!number) {
+  //   return response.status(400).json({ error: 'number missing' })
+  // }
+  // personsdict.persons = personsdict.persons.concat(newPerson)
+  // console.log(personsdict.persons)
+  //response.json(newPerson)
+
+  const person =  new Person({
+    "name": request.body.name,
+    "number": request.body.number
+  })
+
+  person
+    .save()
+    .then(result =>
+    {
+      response.json(Person.formatPerson(result))
+    })
+    .catch(error => {
+      console.log(error)
+    })
 })
 
 personsRouter.get('/:id', async (request, response) => {

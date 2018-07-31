@@ -17,7 +17,7 @@ personsRouter.get('/', async (request, response) => {
   Person
     .find({})
     .then(persons => {
-      let p = persons.map(p=> p.formatPerson())
+      let p = persons.map(Person.formatPerson)
       console.log(p)
       response.json(p)
       })

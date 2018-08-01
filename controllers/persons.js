@@ -66,24 +66,51 @@ personsRouter.get('/', async (request, response) => {
 })
 
 
-personsRouter.post('/', async (request, response) => {
+personsRouter.post('/', (request, response) => {
   console.log("@POST")
   const name = request.body.name;
   const number = request.body.number
-  const person =  new Person({
-    "name": request.body.name,
-    "number": request.body.number
-  })
 
-  person
-    .save()
-    .then(result =>
-    {
-      response.json(Person.formatPerson(result))
+  Person
+    .find({name: request.body.name})
+    .then(result => {
+      return result.length == 0 ? false : true;
     })
-    .catch(error => {
-      console.log(error)
+    .then(bIsFound => {
+      if (bIsFound) {
+        return response.status(400).json({ error: 'name already added' })
+      } else {
+        const person =  new Person({
+        "name": request.body.name,
+        "number": request.body.number
+        })
+        person
+        .save()
+        .then(result =>
+        {
+          response.json(Person.formatPerson(result))
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
     })
+  
+
+  // const person =  new Person({
+  //   "name": request.body.name,
+  //   "number": request.body.number
+  // })
+
+  // person
+  //   .save()
+  //   .then(result =>
+  //   {
+  //     response.json(Person.formatPerson(result))
+  //   })
+  //   .catch(error => {
+  //     console.log(error)
+  //   })
 
   // WITHOUT DB
   // newPerson = {

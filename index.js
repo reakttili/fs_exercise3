@@ -23,14 +23,6 @@ function getContent (req, res, next) {
 
 app.use('/api/persons', personsRouter)
 
-app.get('/info', (req, res) => {
-  const date = new Date();
-  const number = persons.persons.length;
-  res.send('<div>Puhelinluettelossa on '+number+' henkilön tiedot<\div>'+ date)
-  
-  
-})
-
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

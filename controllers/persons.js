@@ -21,6 +21,19 @@ personsRouter.delete('/:id', (request, response) => {
     })
 })
 
+personsRouter.get('/info', (request, response) => {
+  const date = new Date();
+  Person
+    .find({})
+    .then(persons => {
+      response.send('<div>Puhelinluettelossa on '+persons.length+' henkilön tiedot<\div>'+ date)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  
+})
+
 personsRouter.put('/:id', (request, response) => {
   console.log("@PUT")
   const person = {
@@ -95,16 +108,28 @@ personsRouter.post('/', async (request, response) => {
 
 personsRouter.get('/:id', async (request, response) => {
   console.log("@GET ID")
-  try {
-    const persons = personsdict.persons  
-    const selected = persons[request.params.id-1];
-    if (selected) {
-      response.json(persons[request.params.id-1])  
-    } else {
-      response.status(400).json({ error: 'malformatted id' })  
-    }
-  } catch (exception) {
-    console.log(exception)
+  
+  Person
+  .findById(request.params.id)
+  .then(person => {
+      response.json(Person.formatPerson(person))
+  })
+  .catch(error => {
+    console.log(error)
     response.status(400).json({ error: 'malformatted id' })
-  }
+  })
+  
+  // Without dB
+  // try {
+  //   const persons = personsdict.persons  
+  //   const selected = persons[request.params.id-1];
+  //   if (selected) {
+  //     response.json(persons[request.params.id-1])  
+  //   } else {
+  //     response.status(400).json({ error: 'malformatted id' })  
+  //   }
+  // } catch (exception) {
+  //   console.log(exception)
+  //   response.status(400).json({ error: 'malformatted id' })
+  // }
 })

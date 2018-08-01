@@ -1,9 +1,12 @@
 const mongoose = require('mongoose')
 Schema = mongoose.Schema;
 ObjectId = Schema.ObjectId;
-const passwordDict = require('./../passwords.json');
-const password = passwordDict.mongotest
-const url = `mongodb://villevaltteribyman:${password}@ds139890.mlab.com:39890/people`
+
+if ( process.env.NODE_ENV !== 'production' ) {
+  require('dotenv').config()
+}
+const url = process.env.MONGODB_URI
+
 mongoose.connect(url, { useNewUrlParser: true, keepAlive: true, keepAliveInitialDelay: 300000 })
 
 
